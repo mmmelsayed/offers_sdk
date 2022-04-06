@@ -1,6 +1,6 @@
 name: offers_sdk
 description: Offers Page Flutter Plugin.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/mmmelsayed/offers_sdk.git
 
 environment:

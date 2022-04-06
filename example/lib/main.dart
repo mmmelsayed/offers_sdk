@@ -16,47 +16,43 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion =
-          await OffersSdk.platformVersion ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
+  String _contact = 'Unknown';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('Flutter is Awesome'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              MaterialButton(
+                color: Colors.red,
+                textColor: Colors.white,
+                child: Text('Picker'),
+                onPressed: () => _getAContact(),
+              ),
+              Text(_contact ?? '')
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  _getAContact() async {
+    String contact;
+    try {
+      contact = await OffersSdk.getAContact();
+    } on PlatformException {
+      contact = 'Failed to get contact.';
+    }
+    if (!mounted) return;
+    setState(() {
+      _contact = contact;
+    });
   }
 }
